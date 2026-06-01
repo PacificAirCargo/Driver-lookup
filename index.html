@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -193,17 +194,6 @@
 
     <div class="card-body">
 
-      <!-- API key setup (hidden by default) -->
-      <div class="setup-section" id="setup-section">
-        <p><strong>Jotform API key required.</strong><br>
-          Find it in Jotform → My Account → API. The key is saved only in this browser/device.
-        </p>
-        <div class="setup-row">
-          <input type="password" id="api-key-input" placeholder="Paste API key here..." autocomplete="off" />
-          <button onclick="saveKey()">Save</button>
-        </div>
-      </div>
-
       <!-- Name input -->
       <div class="field">
         <label>Driver name</label>
@@ -258,10 +248,7 @@
     </div>
 
     <div class="card-footer">
-      <button class="footer-btn" onclick="toggleSetup()">⚙ API key</button>
-      <span class="key-badge bad" id="key-badge">no key</span>
-      <span style="color:#ddd;">|</span>
-      <button class="footer-btn" onclick="clearCache()">↺ Refresh cache</button>
+      <button class="footer-btn" onclick="clearCache()">↺ Refresh records</button>
     </div>
 
   </div>
@@ -275,30 +262,13 @@
   const PAGE_SIZE = 100;
   const CACHE_KEY = 'pac_subs_cache';
   const CACHE_TTL = 60 * 60 * 1000; // 1 hour in ms
-  const KEY_STORE = 'pac_jf_apikey';
+  const API_KEY   = 'a204ddebe79f4ae2938ef7800e9dbd35';
 
   let allSubmissions = null; // in-memory cache for this session
   let lastData = null;
 
-  // ── API key helpers ──────────────────────────────────────
-  function getKey() { return localStorage.getItem(KEY_STORE) || ''; }
-  function saveKey() {
-    const k = document.getElementById('api-key-input').value.trim();
-    if (!k) { alert('Please paste your API key first.'); return; }
-    localStorage.setItem(KEY_STORE, k);
-    updateKeyBadge();
-    document.getElementById('setup-section').style.display = 'none';
-    showStatus(null);
-  }
-  function updateKeyBadge() {
-    const b = document.getElementById('key-badge');
-    if (getKey()) { b.textContent = 'key saved'; b.className = 'key-badge ok'; }
-    else { b.textContent = 'no key'; b.className = 'key-badge bad'; }
-  }
-  function toggleSetup() {
-    const s = document.getElementById('setup-section');
-    s.style.display = s.style.display === 'none' ? 'block' : 'none';
-  }
+  // ── API key ──────────────────────────────────────────────
+  function getKey() { return API_KEY; }
 
   // ── Status display ───────────────────────────────────────
   function showStatus(which) {
@@ -437,19 +407,11 @@
     const last  = document.getElementById('last').value.trim();
     if (!first && !last) { alert('Please enter at least a first or last name.'); return; }
 
-    const apiKey = getKey();
-    if (!apiKey) {
-      document.getElementById('setup-section').style.display = 'block';
-      document.getElementById('error-msg').textContent = 'Please save your Jotform API key first (see above).';
-      showStatus('error');
-      return;
-    }
-
     showStatus('loading');
     document.getElementById('lookup-btn').disabled = true;
 
     try {
-      const subs = await fetchAllSubmissions(apiKey);
+      const subs = await fetchAllSubmissions(getKey());
 
       // Score all submissions and pick best match
       let best = null, bestScore = 0;
@@ -506,11 +468,6 @@
   }
 
   // ── Init ─────────────────────────────────────────────────
-  updateKeyBadge();
-  if (!getKey()) {
-    document.getElementById('setup-section').style.display = 'block';
-  }
-
   // Allow Enter key to trigger lookup
   document.addEventListener('keydown', e => {
     if (e.key === 'Enter') doLookup();
