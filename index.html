@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Driver Sign-In — Pacific Air &amp; Sea Cargo</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pac-navy: #1B3172;
+    --pac-blue: #29ABE2;
+    --pac-yellow: #F5C518;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  html, body {
+    min-height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a1a;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Layout ── */
+  .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem 4rem; }
+
+  .card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  .card-header {
+    background: var(--pac-navy);
+    padding: 1.5rem 1.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .pac-logo {
+    width: 48px; height: 48px; border-radius: 10px;
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .pac-logo span:first-child { color: var(--pac-blue); font-weight: 800; font-size: 14px; letter-spacing: -0.5px; line-height: 1; }
+  .pac-logo span:last-child { color: rgba(255,255,255,0.5); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+  .header-text strong { display: block; color: #fff; font-size: 17px; font-weight: 600; }
+  .header-text span { color: rgba(255,255,255,0.6); font-size: 13px; }
+
+  /* ── Body ── */
+  .card-body { padding: 1.5rem; }
+
+  .field { margin-bottom: 1.1rem; }
+  label { display: block; font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  input[type=text], input[type=password] {
+    width: 100%; padding: 11px 13px;
+    border: 1.5px solid #dde1e9;
+    border-radius: var(--radius);
+    font-size: 16px;
+    color: #1a1a1a;
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    -webkit-appearance: none;
+  }
+  input[type=text]:focus, input[type=password]:focus {
+    outline: none;
+    border-color: var(--pac-blue);
+    box-shadow: 0 0 0 3px rgba(41,171,226,0.15);
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    width: 100%; padding: 13px;
+    background: var(--pac-navy); color: #fff;
+    border: none; border-radius: var(--radius);
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; margin-top: 0.25rem;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.15s, transform 0.1s;
+    -webkit-appearance: none;
+  }
+  .btn-primary:hover { background: #142558; }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { background: #c5cad6; cursor: not-allowed; transform: none; }
+
+  .btn-go {
+    width: 100%; padding: 13px;
+    background: var(--pac-blue); color: #fff;
+    border: none; border-radius: var(--radius);
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; margin-top: 1rem;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.15s, transform 0.1s;
+    -webkit-appearance: none;
+  }
+  .btn-go:hover { background: #1a90c8; }
+  .btn-go:active { transform: scale(0.98); }
+
+  .btn-outline {
+    width: 100%; padding: 12px;
+    background: transparent; color: var(--pac-navy);
+    border: 1.5px solid var(--pac-navy); border-radius: var(--radius);
+    font-size: 15px; font-weight: 600;
+    cursor: pointer; margin-top: 0.6rem;
+    transition: background 0.15s;
+    -webkit-appearance: none;
+  }
+  .btn-outline:hover { background: rgba(27,49,114,0.06); }
+
+  /* ── Status messages ── */
+  .status { border-radius: var(--radius); padding: 12px 14px; font-size: 14px; margin-top: 1rem; display: none; line-height: 1.5; }
+  .status.loading { display: flex; align-items: center; gap: 12px; background: #f5f7fa; border: 1.5px solid #dde1e9; color: #555; }
+  .status.found { display: flex; align-items: center; gap: 8px; background: #e8f5e9; border: 1.5px solid #a5d6a7; color: #1b5e20; }
+  .status.notfound { display: flex; align-items: center; gap: 8px; background: #f5f7fa; border: 1.5px solid #dde1e9; color: #555; }
+  .status.error { display: flex; align-items: center; gap: 8px; background: #fff8e1; border: 1.5px solid #ffe082; color: #795548; }
+
+  /* ── Spinner ── */
+  .spin {
+    width: 18px; height: 18px; flex-shrink: 0;
+    border: 2.5px solid #dde1e9;
+    border-top-color: var(--pac-blue);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Preview card ── */
+  .preview { border: 1.5px solid #dde1e9; border-radius: var(--radius-lg); overflow: hidden; margin-top: 1.25rem; display: none; }
+  .preview-header { background: var(--pac-navy); padding: 12px 16px; }
+  .preview-header p { font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.5px; }
+  .preview-header strong { color: #fff; font-size: 16px; font-weight: 600; display: block; margin-top: 2px; }
+  .preview-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-top: 1px solid #eef0f4; font-size: 14px; }
+  .preview-row span:first-child { color: #888; }
+  .preview-row span:last-child { font-weight: 500; color: #1a1a1a; max-width: 60%; text-align: right; word-break: break-word; }
+
+  /* ── Divider ── */
+  .divider { display: flex; align-items: center; gap: 10px; margin: 1.25rem 0 0.75rem; }
+  .divider hr { flex: 1; border: none; border-top: 1px solid #eef0f4; }
+  .divider span { font-size: 12px; color: #bbb; }
+
+  /* ── API setup section ── */
+  .setup-section { display: none; background: #f5f7fa; border-radius: var(--radius); padding: 14px; border: 1.5px solid #dde1e9; margin-bottom: 1.25rem; }
+  .setup-section p { font-size: 13px; color: #555; margin-bottom: 8px; line-height: 1.5; }
+  .setup-section p a { color: var(--pac-blue); }
+  .setup-row { display: flex; gap: 8px; }
+  .setup-row input { flex: 1; font-size: 13px; padding: 9px 11px; font-family: monospace; }
+  .setup-row button { padding: 9px 16px; background: var(--pac-navy); color: #fff; border: none; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+
+  /* ── Footer ── */
+  .card-footer { padding: 0.75rem 1.5rem 1.25rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .footer-btn { background: none; border: none; font-size: 12px; color: #aaa; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+  .footer-btn:hover { color: #666; background: #f5f7fa; }
+  .key-badge { font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
+  .key-badge.ok { background: #e8f5e9; color: #2e7d32; }
+  .key-badge.bad { background: #fff8e1; color: #795548; }
+
+  /* ── Cache status bar ── */
+  .cache-bar { font-size: 12px; color: #aaa; text-align: center; padding: 6px 0 0; }
+  .cache-bar.active { color: #2e7d32; }
+
+  /* ── iPad / tablet friendly ── */
+  @media (min-width: 600px) {
+    .card-body { padding: 2rem; }
+    .card-footer { padding: 0.75rem 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="card">
+
+    <div class="card-header">
+      <div class="pac-logo">
+        <span>PAC</span>
+        <span>CARGO</span>
+      </div>
+      <div class="header-text">
+        <strong>Driver Sign-In</strong>
+        <span>Pacific Air &amp; Sea Cargo</span>
+      </div>
+    </div>
+
+    <div class="card-body">
+
+      <!-- API key setup (hidden by default) -->
+      <div class="setup-section" id="setup-section">
+        <p><strong>Jotform API key required.</strong><br>
+          Find it in Jotform → My Account → API. The key is saved only in this browser/device.
+        </p>
+        <div class="setup-row">
+          <input type="password" id="api-key-input" placeholder="Paste API key here..." autocomplete="off" />
+          <button onclick="saveKey()">Save</button>
+        </div>
+      </div>
+
+      <!-- Name input -->
+      <div class="field">
+        <label>Driver name</label>
+        <div class="name-row">
+          <input type="text" id="first" placeholder="First name" autocomplete="given-name" autocorrect="off" />
+          <input type="text" id="last" placeholder="Last name" autocomplete="family-name" autocorrect="off" />
+        </div>
+      </div>
+
+      <button class="btn-primary" id="lookup-btn" onclick="doLookup()">
+        🔍 Look up my details
+      </button>
+
+      <!-- Status messages -->
+      <div class="status loading" id="status-loading">
+        <div class="spin"></div>
+        <span id="loading-msg">Fetching all sign-in records…</span>
+      </div>
+      <div class="status found" id="status-found">
+        ✅ Previous details found — check below and open the form.
+      </div>
+      <div class="status notfound" id="status-notfound">
+        ℹ️ No previous sign-in found — you'll fill in all fields on the form.
+      </div>
+      <div class="status error" id="status-error">
+        ⚠️ <span id="error-msg">Something went wrong.</span>
+      </div>
+
+      <!-- Preview of found data -->
+      <div class="preview" id="preview">
+        <div class="preview-header">
+          <p>Pre-filling form for</p>
+          <strong id="prev-name"></strong>
+        </div>
+        <div class="preview-row"><span>Company</span><span id="prev-company">—</span></div>
+        <div class="preview-row"><span>Vehicle rego</span><span id="prev-rego">—</span></div>
+        <div class="preview-row"><span>ID type</span><span id="prev-idtype">—</span></div>
+        <div class="preview-row"><span>ID number</span><span id="prev-idnum">—</span></div>
+        <button class="btn-go" onclick="openForm(true)">
+          ↗ Open pre-filled sign-in form
+        </button>
+      </div>
+
+      <!-- Not found actions -->
+      <div id="notfound-actions" style="display:none;">
+        <button class="btn-outline" onclick="openForm(false)">Open blank sign-in form</button>
+      </div>
+
+      <!-- Cache status -->
+      <div class="cache-bar" id="cache-bar"></div>
+
+    </div>
+
+    <div class="card-footer">
+      <button class="footer-btn" onclick="toggleSetup()">⚙ API key</button>
+      <span class="key-badge bad" id="key-badge">no key</span>
+      <span style="color:#ddd;">|</span>
+      <button class="footer-btn" onclick="clearCache()">↺ Refresh cache</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── Config ──────────────────────────────────────────────
+  const FORM_ID  = '261510121391039';
+  const FORM_URL = 'https://form.jotform.com/PacificAirCargo/driver-sign-in';
+  const API_BASE = 'https://api.jotform.com';
+  const PAGE_SIZE = 100;
+  const CACHE_KEY = 'pac_subs_cache';
+  const CACHE_TTL = 60 * 60 * 1000; // 1 hour in ms
+  const KEY_STORE = 'pac_jf_apikey';
+
+  let allSubmissions = null; // in-memory cache for this session
+  let lastData = null;
+
+  // ── API key helpers ──────────────────────────────────────
+  function getKey() { return localStorage.getItem(KEY_STORE) || ''; }
+  function saveKey() {
+    const k = document.getElementById('api-key-input').value.trim();
+    if (!k) { alert('Please paste your API key first.'); return; }
+    localStorage.setItem(KEY_STORE, k);
+    updateKeyBadge();
+    document.getElementById('setup-section').style.display = 'none';
+    showStatus(null);
+  }
+  function updateKeyBadge() {
+    const b = document.getElementById('key-badge');
+    if (getKey()) { b.textContent = 'key saved'; b.className = 'key-badge ok'; }
+    else { b.textContent = 'no key'; b.className = 'key-badge bad'; }
+  }
+  function toggleSetup() {
+    const s = document.getElementById('setup-section');
+    s.style.display = s.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // ── Status display ───────────────────────────────────────
+  function showStatus(which) {
+    ['loading','found','notfound','error'].forEach(id => {
+      document.getElementById('status-' + id).style.display = 'none';
+    });
+    document.getElementById('preview').style.display = 'none';
+    document.getElementById('notfound-actions').style.display = 'none';
+    if (which) {
+      const el = document.getElementById('status-' + which);
+      el.style.display = 'flex';
+    }
+  }
+
+  // ── Cache helpers ────────────────────────────────────────
+  function loadCache() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const obj = JSON.parse(raw);
+      if (Date.now() - obj.timestamp > CACHE_TTL) return null;
+      return obj.data;
+    } catch(e) { return null; }
+  }
+  function saveCache(data) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
+    } catch(e) { /* storage full — skip caching */ }
+  }
+  function clearCache() {
+    allSubmissions = null;
+    localStorage.removeItem(CACHE_KEY);
+    document.getElementById('cache-bar').textContent = '';
+    document.getElementById('cache-bar').className = 'cache-bar';
+    showStatus(null);
+  }
+  function updateCacheBar(count, fromCache) {
+    const bar = document.getElementById('cache-bar');
+    const src = fromCache ? 'from cache' : 'freshly loaded';
+    bar.textContent = `${count} sign-in records loaded (${src})`;
+    bar.className = 'cache-bar active';
+  }
+
+  // ── Fetch ALL submissions via pagination ─────────────────
+  async function fetchAllSubmissions(apiKey) {
+    // Return in-memory cache if available
+    if (allSubmissions) return allSubmissions;
+
+    // Try localStorage cache
+    const cached = loadCache();
+    if (cached) {
+      allSubmissions = cached;
+      updateCacheBar(allSubmissions.length, true);
+      return allSubmissions;
+    }
+
+    // Fetch from API page by page
+    let all = [];
+    let offset = 0;
+    let total = null;
+
+    while (true) {
+      setLoadingMsg(offset === 0
+        ? 'Fetching all sign-in records…'
+        : `Loading records… (${all.length} so far)`
+      );
+
+      const url = `${API_BASE}/form/${FORM_ID}/submissions?apiKey=${apiKey}&limit=${PAGE_SIZE}&offset=${offset}&orderby=created_at&direction=DESC`;
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const json = await resp.json();
+      if (json.responseCode !== 200) throw new Error(json.message || 'API error ' + json.responseCode);
+
+      const page = json.content || [];
+      all = all.concat(page);
+
+      if (total === null) total = json.resultSet ? json.resultSet.count : null;
+
+      // Stop if we got a short page (last page) or reached total
+      if (page.length < PAGE_SIZE) break;
+      if (total !== null && all.length >= total) break;
+
+      offset += PAGE_SIZE;
+    }
+
+    allSubmissions = all;
+    saveCache(all);
+    updateCacheBar(all.length, false);
+    return all;
+  }
+
+  function setLoadingMsg(msg) {
+    document.getElementById('loading-msg').textContent = msg;
+  }
+
+  // ── Name matching ────────────────────────────────────────
+  function extractNameAndFields(submission) {
+    const ans = submission.answers || {};
+    let fn = '', ln = '', company = '', rego = '', idtype = '', idnum = '';
+
+    Object.values(ans).forEach(a => {
+      // Full name field (name-type answer with first/last)
+      if (a.answer && typeof a.answer === 'object' && (a.answer.first !== undefined || a.answer.last !== undefined)) {
+        fn = (a.answer.first || '').trim();
+        ln = (a.answer.last || '').trim();
+      }
+      const t = (a.text || '').toLowerCase();
+      const n = (a.name || '').toLowerCase();
+      const val = typeof a.answer === 'string' ? a.answer.trim() : '';
+
+      if ((t.includes('company') || n.includes('company')) && val) company = val;
+      if ((t.includes('registr') || t.includes('rego') || n.includes('vehicle') || n.includes('rego')) && val) rego = val;
+      if ((t.includes('i.d type') || t.includes('id type') || t.includes('type') && t.includes('id') || n.includes('idtype') || n.includes('id_type')) && val) idtype = val;
+      if ((t.includes('i.d number') || t.includes('id number') || n.includes('idnumber') || n.includes('id_number')) && val) idnum = val;
+    });
+
+    return { fn, ln, company, rego, idtype, idnum };
+  }
+
+  function scoreName(fn, ln, queryFirst, queryLast) {
+    const ff = fn.toLowerCase(), fl = ln.toLowerCase();
+    const qf = queryFirst.toLowerCase(), ql = queryLast.toLowerCase();
+    let score = 0;
+    if (qf && ff === qf) score += 10;
+    else if (qf && ff.startsWith(qf)) score += 5;
+    else if (qf && ff.includes(qf)) score += 2;
+    if (ql && fl === ql) score += 10;
+    else if (ql && fl.startsWith(ql)) score += 5;
+    else if (ql && fl.includes(ql)) score += 2;
+    return score;
+  }
+
+  // ── Main lookup ──────────────────────────────────────────
+  async function doLookup() {
+    const first = document.getElementById('first').value.trim();
+    const last  = document.getElementById('last').value.trim();
+    if (!first && !last) { alert('Please enter at least a first or last name.'); return; }
+
+    const apiKey = getKey();
+    if (!apiKey) {
+      document.getElementById('setup-section').style.display = 'block';
+      document.getElementById('error-msg').textContent = 'Please save your Jotform API key first (see above).';
+      showStatus('error');
+      return;
+    }
+
+    showStatus('loading');
+    document.getElementById('lookup-btn').disabled = true;
+
+    try {
+      const subs = await fetchAllSubmissions(apiKey);
+
+      // Score all submissions and pick best match
+      let best = null, bestScore = 0;
+      for (const s of subs) {
+        const fields = extractNameAndFields(s);
+        if (!fields.fn && !fields.ln) continue;
+        const score = scoreName(fields.fn, fields.ln, first, last);
+        if (score > bestScore) { bestScore = score; best = { score, fields }; }
+      }
+
+      if (best && bestScore >= 2) {
+        const f = best.fields;
+        lastData = { first: f.fn || first, last: f.ln || last, company: f.company, rego: f.rego, idtype: f.idtype, idnum: f.idnum };
+        document.getElementById('prev-name').textContent = f.fn + (f.ln ? ' ' + f.ln : '');
+        document.getElementById('prev-company').textContent = f.company || '—';
+        document.getElementById('prev-rego').textContent   = f.rego    || '—';
+        document.getElementById('prev-idtype').textContent = f.idtype  || '—';
+        document.getElementById('prev-idnum').textContent  = f.idnum   || '—';
+        showStatus('found');
+        document.getElementById('preview').style.display = 'block';
+      } else {
+        lastData = { first, last, company: '', rego: '', idtype: '', idnum: '' };
+        showStatus('notfound');
+        document.getElementById('notfound-actions').style.display = 'block';
+      }
+
+    } catch(e) {
+      document.getElementById('error-msg').textContent = e.message + ' — check your API key or network.';
+      showStatus('error');
+    }
+
+    document.getElementById('lookup-btn').disabled = false;
+  }
+
+  // ── Open form with prefill ───────────────────────────────
+  function openForm(withData) {
+    const d = lastData || {
+      first: document.getElementById('first').value.trim(),
+      last:  document.getElementById('last').value.trim(),
+      company: '', rego: '', idtype: '', idnum: ''
+    };
+
+    const params = new URLSearchParams();
+    if (d.first)   params.set('q2_fullname0[first]', d.first);
+    if (d.last)    params.set('q2_fullname0[last]',  d.last);
+    if (withData) {
+      if (d.company) params.set('q3_textbox1', d.company);
+
+      if (d.idtype)  params.set('idType', d.idtype);
+      if (d.idnum)   params.set('typeA', d.idnum);
+    }
+
+    window.open(FORM_URL + '?' + params.toString(), '_blank');
+  }
+
+  // ── Init ─────────────────────────────────────────────────
+  updateKeyBadge();
+  if (!getKey()) {
+    document.getElementById('setup-section').style.display = 'block';
+  }
+
+  // Allow Enter key to trigger lookup
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLookup();
+  });
+</script>
+</body>
+</html>
