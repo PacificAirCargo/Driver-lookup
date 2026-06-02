@@ -660,9 +660,18 @@
         return b.score - a.score || new Date(b.fields.date) - new Date(a.fields.date);
       });
 
-      if (scored.length > 0) {
-        allMatches = scored;
-        renderResults(scored);
+      // Deduplicate — keep only most recent per unique name + company + rego
+      const seen = {};
+      const deduped = [];
+      scored.forEach(function(m) {
+        const f = m.fields;
+        const key = (f.fn + "|" + f.ln + "|" + f.company + "|" + f.rego).toLowerCase().trim();
+        if (!seen[key]) { seen[key] = true; deduped.push(m); }
+      });
+
+      if (deduped.length > 0) {
+        allMatches = deduped;
+        renderResults(deduped);
         hideAll();
         document.getElementById('results-section').style.display = 'block';
       } else {
