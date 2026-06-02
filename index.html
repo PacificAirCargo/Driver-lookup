@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +23,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ── Layout ── */
   .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem 4rem; }
 
   .card {
@@ -40,17 +38,14 @@
   .card-header {
     background: var(--pac-navy);
     padding: 1.5rem 1.5rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    display: flex; align-items: center; gap: 14px;
   }
   .pac-logo {
     width: 48px; height: 48px; border-radius: 10px;
     background: rgba(255,255,255,0.12);
     border: 1.5px solid rgba(255,255,255,0.2);
     display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    flex-shrink: 0;
+    align-items: center; justify-content: center; flex-shrink: 0;
   }
   .pac-logo span:first-child { color: var(--pac-blue); font-weight: 800; font-size: 14px; letter-spacing: -0.5px; line-height: 1; }
   .pac-logo span:last-child { color: rgba(255,255,255,0.5); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
@@ -64,19 +59,16 @@
   label { display: block; font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
   .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  input[type=text], input[type=password] {
+  input[type=text] {
     width: 100%; padding: 11px 13px;
     border: 1.5px solid #dde1e9;
     border-radius: var(--radius);
-    font-size: 16px;
-    color: #1a1a1a;
-    background: #fff;
+    font-size: 16px; color: #1a1a1a; background: #fff;
     transition: border-color 0.15s, box-shadow 0.15s;
     -webkit-appearance: none;
   }
-  input[type=text]:focus, input[type=password]:focus {
-    outline: none;
-    border-color: var(--pac-blue);
+  input[type=text]:focus {
+    outline: none; border-color: var(--pac-blue);
     box-shadow: 0 0 0 3px rgba(41,171,226,0.15);
   }
 
@@ -85,11 +77,9 @@
     width: 100%; padding: 13px;
     background: var(--pac-navy); color: #fff;
     border: none; border-radius: var(--radius);
-    font-size: 16px; font-weight: 600;
-    cursor: pointer; margin-top: 0.25rem;
+    font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 0.25rem;
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: background 0.15s, transform 0.1s;
-    -webkit-appearance: none;
+    transition: background 0.15s, transform 0.1s; -webkit-appearance: none;
   }
   .btn-primary:hover { background: #142558; }
   .btn-primary:active { transform: scale(0.98); }
@@ -99,11 +89,9 @@
     width: 100%; padding: 13px;
     background: var(--pac-blue); color: #fff;
     border: none; border-radius: var(--radius);
-    font-size: 16px; font-weight: 600;
-    cursor: pointer; margin-top: 1rem;
+    font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 1rem;
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: background 0.15s, transform 0.1s;
-    -webkit-appearance: none;
+    transition: background 0.15s, transform 0.1s; -webkit-appearance: none;
   }
   .btn-go:hover { background: #1a90c8; }
   .btn-go:active { transform: scale(0.98); }
@@ -112,65 +100,64 @@
     width: 100%; padding: 12px;
     background: transparent; color: var(--pac-navy);
     border: 1.5px solid var(--pac-navy); border-radius: var(--radius);
-    font-size: 15px; font-weight: 600;
-    cursor: pointer; margin-top: 0.6rem;
-    transition: background 0.15s;
-    -webkit-appearance: none;
+    font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 0.6rem;
+    transition: background 0.15s; -webkit-appearance: none;
   }
   .btn-outline:hover { background: rgba(27,49,114,0.06); }
 
   /* ── Status messages ── */
   .status { border-radius: var(--radius); padding: 12px 14px; font-size: 14px; margin-top: 1rem; display: none; line-height: 1.5; }
   .status.loading { display: flex; align-items: center; gap: 12px; background: #f5f7fa; border: 1.5px solid #dde1e9; color: #555; }
-  .status.found { display: flex; align-items: center; gap: 8px; background: #e8f5e9; border: 1.5px solid #a5d6a7; color: #1b5e20; }
   .status.notfound { display: flex; align-items: center; gap: 8px; background: #f5f7fa; border: 1.5px solid #dde1e9; color: #555; }
   .status.error { display: flex; align-items: center; gap: 8px; background: #fff8e1; border: 1.5px solid #ffe082; color: #795548; }
 
   /* ── Spinner ── */
   .spin {
     width: 18px; height: 18px; flex-shrink: 0;
-    border: 2.5px solid #dde1e9;
-    border-top-color: var(--pac-blue);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
+    border: 2.5px solid #dde1e9; border-top-color: var(--pac-blue);
+    border-radius: 50%; animation: spin 0.7s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  /* ── Results list ── */
+  .results-section { margin-top: 1.25rem; display: none; }
+  .results-label { font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .results-count { font-size: 12px; color: #aaa; margin-bottom: 10px; }
+
+  .result-item {
+    border: 1.5px solid #dde1e9; border-radius: var(--radius);
+    padding: 12px 14px; margin-bottom: 8px; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .result-item:hover { border-color: var(--pac-blue); background: #f0f8fd; }
+  .result-item.selected { border-color: var(--pac-blue); background: #e8f5fb; }
+  .result-item-left { flex: 1; }
+  .result-item-name { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+  .result-item-company { font-size: 13px; color: #666; margin-top: 2px; }
+  .result-item-date { font-size: 12px; color: #aaa; margin-top: 2px; }
+  .result-item-arrow { color: var(--pac-blue); font-size: 18px; margin-left: 10px; flex-shrink: 0; }
+
   /* ── Preview card ── */
   .preview { border: 1.5px solid #dde1e9; border-radius: var(--radius-lg); overflow: hidden; margin-top: 1.25rem; display: none; }
-  .preview-header { background: var(--pac-navy); padding: 12px 16px; }
-  .preview-header p { font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.5px; }
-  .preview-header strong { color: #fff; font-size: 16px; font-weight: 600; display: block; margin-top: 2px; }
+  .preview-header { background: var(--pac-navy); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+  .preview-header-left p { font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.5px; }
+  .preview-header-left strong { color: #fff; font-size: 16px; font-weight: 600; display: block; margin-top: 2px; }
+  .btn-back { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #fff; font-size: 12px; padding: 5px 10px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+  .btn-back:hover { background: rgba(255,255,255,0.25); }
   .preview-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-top: 1px solid #eef0f4; font-size: 14px; }
   .preview-row span:first-child { color: #888; }
   .preview-row span:last-child { font-weight: 500; color: #1a1a1a; max-width: 60%; text-align: right; word-break: break-word; }
 
-  /* ── Divider ── */
-  .divider { display: flex; align-items: center; gap: 10px; margin: 1.25rem 0 0.75rem; }
-  .divider hr { flex: 1; border: none; border-top: 1px solid #eef0f4; }
-  .divider span { font-size: 12px; color: #bbb; }
-
-  /* ── API setup section ── */
-  .setup-section { display: none; background: #f5f7fa; border-radius: var(--radius); padding: 14px; border: 1.5px solid #dde1e9; margin-bottom: 1.25rem; }
-  .setup-section p { font-size: 13px; color: #555; margin-bottom: 8px; line-height: 1.5; }
-  .setup-section p a { color: var(--pac-blue); }
-  .setup-row { display: flex; gap: 8px; }
-  .setup-row input { flex: 1; font-size: 13px; padding: 9px 11px; font-family: monospace; }
-  .setup-row button { padding: 9px 16px; background: var(--pac-navy); color: #fff; border: none; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-
   /* ── Footer ── */
-  .card-footer { padding: 0.75rem 1.5rem 1.25rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .card-footer { padding: 0.75rem 1.5rem 1.25rem; display: flex; align-items: center; justify-content: center; }
   .footer-btn { background: none; border: none; font-size: 12px; color: #aaa; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
   .footer-btn:hover { color: #666; background: #f5f7fa; }
-  .key-badge { font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
-  .key-badge.ok { background: #e8f5e9; color: #2e7d32; }
-  .key-badge.bad { background: #fff8e1; color: #795548; }
 
-  /* ── Cache status bar ── */
+  /* ── Cache bar ── */
   .cache-bar { font-size: 12px; color: #aaa; text-align: center; padding: 6px 0 0; }
   .cache-bar.active { color: #2e7d32; }
 
-  /* ── iPad / tablet friendly ── */
   @media (min-width: 600px) {
     .card-body { padding: 2rem; }
     .card-footer { padding: 0.75rem 2rem 1.5rem; }
@@ -196,11 +183,8 @@
 
       <!-- Name input -->
       <div class="field">
-        <label>Driver name</label>
-        <div class="name-row">
-          <input type="text" id="first" placeholder="First name" autocomplete="given-name" autocorrect="off" />
-          <input type="text" id="last" placeholder="Last name" autocomplete="family-name" autocorrect="off" />
-        </div>
+        <label>First name</label>
+        <input type="text" id="first" placeholder="Enter first name" autocomplete="given-name" autocorrect="off" />
       </div>
 
       <button class="btn-primary" id="lookup-btn" onclick="doLookup()">
@@ -212,9 +196,6 @@
         <div class="spin"></div>
         <span id="loading-msg">Fetching all sign-in records…</span>
       </div>
-      <div class="status found" id="status-found">
-        ✅ Previous details found — check below and open the form.
-      </div>
       <div class="status notfound" id="status-notfound">
         ℹ️ No previous sign-in found — you'll fill in all fields on the form.
       </div>
@@ -222,19 +203,34 @@
         ⚠️ <span id="error-msg">Something went wrong.</span>
       </div>
 
-      <!-- Preview of found data -->
+      <!-- Results list (shown when matches found) -->
+      <div class="results-section" id="results-section">
+        <div class="results-label">Select a previous sign-in</div>
+        <div class="results-count" id="results-count"></div>
+        <div id="results-list"></div>
+        <button class="btn-outline" onclick="openForm(false)" style="margin-top:0.5rem;">
+          Use a different record — open blank form
+        </button>
+      </div>
+
+      <!-- Preview of selected record -->
       <div class="preview" id="preview">
         <div class="preview-header">
-          <p>Pre-filling form for</p>
-          <strong id="prev-name"></strong>
+          <div class="preview-header-left">
+            <p>Pre-filling form for</p>
+            <strong id="prev-name"></strong>
+          </div>
+          <button class="btn-back" onclick="showResults()">← Back</button>
         </div>
         <div class="preview-row"><span>Company</span><span id="prev-company">—</span></div>
         <div class="preview-row"><span>Vehicle rego</span><span id="prev-rego">—</span></div>
         <div class="preview-row"><span>ID type</span><span id="prev-idtype">—</span></div>
         <div class="preview-row"><span>ID number</span><span id="prev-idnum">—</span></div>
-        <button class="btn-go" onclick="openForm(true)">
-          ↗ Open pre-filled sign-in form
-        </button>
+        <div style="padding: 0 16px 16px;">
+          <button class="btn-go" onclick="openForm(true)">
+            ↗ Open pre-filled sign-in form
+          </button>
+        </div>
       </div>
 
       <!-- Not found actions -->
@@ -242,7 +238,6 @@
         <button class="btn-outline" onclick="openForm(false)">Open blank sign-in form</button>
       </div>
 
-      <!-- Cache status -->
       <div class="cache-bar" id="cache-bar"></div>
 
     </div>
@@ -256,31 +251,41 @@
 
 <script>
   // ── Config ──────────────────────────────────────────────
-  const FORM_ID  = '261510121391039';
-  const FORM_URL = 'https://form.jotform.com/PacificAirCargo/driver-sign-in';
-  const API_BASE = 'https://api.jotform.com';
+  const FORM_ID   = '261510121391039';
+  const FORM_URL  = 'https://form.jotform.com/PacificAirCargo/driver-sign-in';
+  const API_BASE  = 'https://api.jotform.com';
   const PAGE_SIZE = 100;
   const CACHE_KEY = 'pac_subs_cache';
-  const CACHE_TTL = 60 * 60 * 1000; // 1 hour in ms
+  const CACHE_TTL = 60 * 60 * 1000;
   const API_KEY   = 'a204ddebe79f4ae2938ef7800e9dbd35';
 
-  let allSubmissions = null; // in-memory cache for this session
+  let allSubmissions = null;
   let lastData = null;
+  let allMatches = [];
 
-  // ── API key ──────────────────────────────────────────────
   function getKey() { return API_KEY; }
 
   // ── Status display ───────────────────────────────────────
-  function showStatus(which) {
-    ['loading','found','notfound','error'].forEach(id => {
+  function hideAll() {
+    ['loading','notfound','error'].forEach(id => {
       document.getElementById('status-' + id).style.display = 'none';
     });
     document.getElementById('preview').style.display = 'none';
+    document.getElementById('results-section').style.display = 'none';
     document.getElementById('notfound-actions').style.display = 'none';
+  }
+
+  function showStatus(which) {
+    hideAll();
     if (which) {
       const el = document.getElementById('status-' + which);
       el.style.display = 'flex';
     }
+  }
+
+  function showResults() {
+    hideAll();
+    document.getElementById('results-section').style.display = 'block';
   }
 
   // ── Cache helpers ────────────────────────────────────────
@@ -294,66 +299,46 @@
     } catch(e) { return null; }
   }
   function saveCache(data) {
-    try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
-    } catch(e) { /* storage full — skip caching */ }
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data })); }
+    catch(e) {}
   }
   function clearCache() {
     allSubmissions = null;
     localStorage.removeItem(CACHE_KEY);
     document.getElementById('cache-bar').textContent = '';
     document.getElementById('cache-bar').className = 'cache-bar';
-    showStatus(null);
+    hideAll();
   }
   function updateCacheBar(count, fromCache) {
     const bar = document.getElementById('cache-bar');
-    const src = fromCache ? 'from cache' : 'freshly loaded';
-    bar.textContent = `${count} sign-in records loaded (${src})`;
+    bar.textContent = `${count} sign-in records loaded (${fromCache ? 'from cache' : 'freshly loaded'})`;
     bar.className = 'cache-bar active';
   }
 
-  // ── Fetch ALL submissions via pagination ─────────────────
+  // ── Fetch ALL submissions ────────────────────────────────
   async function fetchAllSubmissions(apiKey) {
-    // Return in-memory cache if available
     if (allSubmissions) return allSubmissions;
-
-    // Try localStorage cache
     const cached = loadCache();
     if (cached) {
       allSubmissions = cached;
       updateCacheBar(allSubmissions.length, true);
       return allSubmissions;
     }
-
-    // Fetch from API page by page
-    let all = [];
-    let offset = 0;
-    let total = null;
-
+    let all = [], offset = 0, total = null;
     while (true) {
-      setLoadingMsg(offset === 0
-        ? 'Fetching all sign-in records…'
-        : `Loading records… (${all.length} so far)`
-      );
-
+      setLoadingMsg(offset === 0 ? 'Fetching all sign-in records…' : `Loading records… (${all.length} so far)`);
       const url = `${API_BASE}/form/${FORM_ID}/submissions?apiKey=${apiKey}&limit=${PAGE_SIZE}&offset=${offset}&orderby=created_at&direction=DESC`;
       const resp = await fetch(url);
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const json = await resp.json();
       if (json.responseCode !== 200) throw new Error(json.message || 'API error ' + json.responseCode);
-
       const page = json.content || [];
       all = all.concat(page);
-
       if (total === null) total = json.resultSet ? json.resultSet.count : null;
-
-      // Stop if we got a short page (last page) or reached total
       if (page.length < PAGE_SIZE) break;
       if (total !== null && all.length >= total) break;
-
       offset += PAGE_SIZE;
     }
-
     allSubmissions = all;
     saveCache(all);
     updateCacheBar(all.length, false);
@@ -364,13 +349,11 @@
     document.getElementById('loading-msg').textContent = msg;
   }
 
-  // ── Name matching ────────────────────────────────────────
+  // ── Extract fields from a submission ────────────────────
   function extractNameAndFields(submission) {
     const ans = submission.answers || {};
     let fn = '', ln = '', company = '', rego = '', idtype = '', idnum = '';
-
     Object.values(ans).forEach(a => {
-      // Full name field (name-type answer with first/last)
       if (a.answer && typeof a.answer === 'object' && (a.answer.first !== undefined || a.answer.last !== undefined)) {
         fn = (a.answer.first || '').trim();
         ln = (a.answer.last || '').trim();
@@ -378,14 +361,12 @@
       const t = (a.text || '').toLowerCase();
       const n = (a.name || '').toLowerCase();
       const val = typeof a.answer === 'string' ? a.answer.trim() : '';
-
       if ((t.includes('company') || n.includes('company')) && val) company = val;
       if ((t.includes('registr') || t.includes('rego') || n.includes('vehicle') || n.includes('rego')) && val) rego = val;
-      if ((t.includes('i.d type') || t.includes('id type') || t.includes('type') && t.includes('id') || n.includes('idtype') || n.includes('id_type')) && val) idtype = val;
+      if ((t.includes('i.d type') || t.includes('id type') || (t.includes('type') && t.includes('id')) || n.includes('idtype') || n.includes('id_type')) && val) idtype = val;
       if ((t.includes('i.d number') || t.includes('id number') || n.includes('idnumber') || n.includes('id_number')) && val) idnum = val;
     });
-
-    return { fn, ln, company, rego, idtype, idnum };
+    return { fn, ln, company, rego, idtype, idnum, date: submission.created_at || '' };
   }
 
   function scoreName(fn, ln, queryFirst, queryLast) {
@@ -401,11 +382,62 @@
     return score;
   }
 
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch(e) { return dateStr; }
+  }
+
+  // ── Render results list ──────────────────────────────────
+  function renderResults(matches) {
+    const list = document.getElementById('results-list');
+    const count = document.getElementById('results-count');
+    count.textContent = `${matches.length} record${matches.length !== 1 ? 's' : ''} found — tap to select`;
+    list.innerHTML = '';
+    matches.forEach((m, i) => {
+      const f = m.fields;
+      const div = document.createElement('div');
+      div.className = 'result-item';
+      div.innerHTML = `
+        <div class="result-item-left">
+          <div class="result-item-name">${f.fn} ${f.ln}</div>
+          <div class="result-item-company">${f.company || 'No company recorded'} · Rego: ${f.rego || '—'}</div>
+          <div class="result-item-date">${formatDate(f.date)}</div>
+        </div>
+        <div class="result-item-arrow">›</div>
+      `;
+      div.onclick = () => selectRecord(i);
+      list.appendChild(div);
+    });
+  }
+
+  // ── Select a record from the list ───────────────────────
+  function selectRecord(index) {
+    const f = allMatches[index].fields;
+    lastData = { first: f.fn, last: f.ln, company: f.company, rego: f.rego, idtype: f.idtype, idnum: f.idnum };
+
+    // Highlight selected
+    document.querySelectorAll('.result-item').forEach((el, i) => {
+      el.classList.toggle('selected', i === index);
+    });
+
+    document.getElementById('prev-name').textContent = f.fn + (f.ln ? ' ' + f.ln : '');
+    document.getElementById('prev-company').textContent = f.company || '—';
+    document.getElementById('prev-rego').textContent   = f.rego    || '—';
+    document.getElementById('prev-idtype').textContent = f.idtype  || '—';
+    document.getElementById('prev-idnum').textContent  = f.idnum   || '—';
+
+    hideAll();
+    document.getElementById('preview').style.display = 'block';
+  }
+
   // ── Main lookup ──────────────────────────────────────────
   async function doLookup() {
     const first = document.getElementById('first').value.trim();
-    const last  = document.getElementById('last').value.trim();
-    if (!first && !last) { alert('Please enter at least a first or last name.'); return; }
+    const last  = '';
+    if (!first) { alert('Please enter a first name.'); return; }
 
     showStatus('loading');
     document.getElementById('lookup-btn').disabled = true;
@@ -413,33 +445,29 @@
     try {
       const subs = await fetchAllSubmissions(getKey());
 
-      // Score all submissions and pick best match
-      let best = null, bestScore = 0;
+      // Collect ALL matches above threshold, sorted best first
+      const scored = [];
       for (const s of subs) {
         const fields = extractNameAndFields(s);
         if (!fields.fn && !fields.ln) continue;
         const score = scoreName(fields.fn, fields.ln, first, last);
-        if (score > bestScore) { bestScore = score; best = { score, fields }; }
+        if (score >= 2) scored.push({ score, fields });
       }
+      scored.sort((a, b) => b.score - a.score || new Date(b.fields.date) - new Date(a.fields.date));
 
-      if (best && bestScore >= 2) {
-        const f = best.fields;
-        lastData = { first: f.fn || first, last: f.ln || last, company: f.company, rego: f.rego, idtype: f.idtype, idnum: f.idnum };
-        document.getElementById('prev-name').textContent = f.fn + (f.ln ? ' ' + f.ln : '');
-        document.getElementById('prev-company').textContent = f.company || '—';
-        document.getElementById('prev-rego').textContent   = f.rego    || '—';
-        document.getElementById('prev-idtype').textContent = f.idtype  || '—';
-        document.getElementById('prev-idnum').textContent  = f.idnum   || '—';
-        showStatus('found');
-        document.getElementById('preview').style.display = 'block';
+      if (scored.length > 0) {
+        allMatches = scored;
+        renderResults(scored);
+        hideAll();
+        document.getElementById('results-section').style.display = 'block';
       } else {
-        lastData = { first, last, company: '', rego: '', idtype: '', idnum: '' };
+        lastData = { first, last: '', company: '', rego: '', idtype: '', idnum: '' };
         showStatus('notfound');
         document.getElementById('notfound-actions').style.display = 'block';
       }
 
     } catch(e) {
-      document.getElementById('error-msg').textContent = e.message + ' — check your API key or network.';
+      document.getElementById('error-msg').textContent = e.message + ' — check network connection.';
       showStatus('error');
     }
 
@@ -450,25 +478,22 @@
   function openForm(withData) {
     const d = lastData || {
       first: document.getElementById('first').value.trim(),
-      last:  document.getElementById('last').value.trim(),
+      last:  '',
       company: '', rego: '', idtype: '', idnum: ''
     };
-
     const params = new URLSearchParams();
     if (d.first)   params.set('q2_fullname0[first]', d.first);
     if (d.last)    params.set('q2_fullname0[last]',  d.last);
     if (withData) {
       if (d.company) params.set('q3_textbox1', d.company);
-
+      if (d.rego)    params.set('q4_textbox2', d.rego);
       if (d.idtype)  params.set('idType', d.idtype);
       if (d.idnum)   params.set('typeA', d.idnum);
     }
-
     window.open(FORM_URL + '?' + params.toString(), '_blank');
   }
 
   // ── Init ─────────────────────────────────────────────────
-  // Allow Enter key to trigger lookup
   document.addEventListener('keydown', e => {
     if (e.key === 'Enter') doLookup();
   });
