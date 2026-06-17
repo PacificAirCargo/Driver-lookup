@@ -1,4 +1,4 @@
-<!DOCTYPE html>
++<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -547,7 +547,7 @@
   const API_BASE  = 'https://api.jotform.com';
   const PAGE_SIZE = 100;
   const CACHE_KEY = 'pac_subs_cache';
-  const CACHE_TTL = 60 * 60 * 1000;
+  const CACHE_TTL = 5 * 60 * 1000;
   const API_KEY   = 'a204ddebe79f4ae2938ef7800e9dbd35';
 
   let allSubmissions = null;
@@ -605,14 +605,13 @@
   }
 
   async function fetchAllSubmissions(apiKey) {
-    if (allSubmissions) return allSubmissions;
     const cached = loadCache();
     if (cached) {
       allSubmissions = cached;
       updateCacheBar(allSubmissions.length, true);
       return allSubmissions;
     }
-    let all = [], offset = 0, total = null;
+    let all = [], offset = 0;
     while (true) {
       setLoadingMsg(offset === 0 ? 'Fetching sign-in records…' : 'Loading… (' + all.length + ' so far)');
       const url = API_BASE + '/form/' + FORM_ID + '/submissions?apiKey=' + apiKey + '&limit=' + PAGE_SIZE + '&offset=' + offset + '&orderby=created_at&direction=DESC';
@@ -622,15 +621,14 @@
       if (json.responseCode !== 200) throw new Error(json.message || 'API error ' + json.responseCode);
       const page = json.content || [];
       all = all.concat(page);
-      if (total === null) total = json.resultSet ? json.resultSet.count : null;
       if (page.length < PAGE_SIZE) break;
-      if (total !== null && all.length >= total) break;
       offset += PAGE_SIZE;
     }
     allSubmissions = all;
     saveCache(all);
     updateCacheBar(all.length, false);
     return all;
+  }
   }
 
   function setLoadingMsg(msg) {
